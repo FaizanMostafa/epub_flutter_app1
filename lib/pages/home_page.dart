@@ -1,4 +1,7 @@
 import 'package:epub_flutter_app1/blocs/catagories_block.dart';
+import 'package:epub_flutter_app1/models/catagory.dart';
+import 'package:epub_flutter_app1/models/product.dart';
+import 'package:epub_flutter_app1/pages/selected_catagory_page.dart';
 import 'package:epub_flutter_app1/widgets/bloc_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -12,18 +15,30 @@ class HomePage extends StatelessWidget {
       ),
       body: StreamBuilder(
         stream: _catagoriesBloc.outCatagories,
-        builder: (BuildContext context, AsyncSnapShot<List<Catagory>> catagories){
+        builder: (BuildContext context, AsyncSnapshot<List<Catagory>> catagories){
           if(catagories.hasData){
             return ListView.builder(
               itemCount: catagories.data.length,
               itemBuilder: (BuildContext context, int index){
-                return Text(
+                return ListTile(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SelectedCatagoryPage(products: [
+                      Product.create("Charger"),
+                      Product.create("Data Cable"),
+                      Product.create("Handsfree"),
+                      Product.create("Bluetooth"),
+                      Product.create("Temper Glass"),
+                    ],)
+                  )),
+                  title: Text(
                   catagories.data[index].name,
                   style: TextStyle(fontSize: 24.0),
-                  );
+                  ),
+                );
               },
-            )
+            );
           }
+          return SizedBox();
         }
       )
     );
