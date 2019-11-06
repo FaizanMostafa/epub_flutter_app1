@@ -1,4 +1,5 @@
 import 'package:epub_flutter_app1/blocs/catagories_block.dart';
+import 'package:epub_flutter_app1/blocs/products_bloc.dart';
 import 'package:epub_flutter_app1/models/catagory.dart';
 import 'package:epub_flutter_app1/models/product.dart';
 import 'package:epub_flutter_app1/pages/selected_catagory_page.dart';
@@ -22,14 +23,13 @@ class HomePage extends StatelessWidget {
               itemBuilder: (BuildContext context, int index){
                 return ListTile(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => SelectedCatagoryPage(products: [
-                      Product.create("Charger"),
-                      Product.create("Data Cable"),
-                      Product.create("Handsfree"),
-                      Product.create("Bluetooth"),
-                      Product.create("Temper Glass"),
-                    ],)
-                  )),
+                    builder: (BuildContext context) => 
+                      BlocProvider<ProductsBloc>(
+                        bloc: ProductsBloc(catagories.data[index]),
+                        child: SelectedCatagoryPage(),
+                      )
+                    )
+                  ),
                   title: Text(
                   catagories.data[index].name,
                   style: TextStyle(fontSize: 24.0),
